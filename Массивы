@@ -1,0 +1,27 @@
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] years = new int[50];
+        Random random = new Random();
+        int currentYear = 2026;
+        int sumAge = 0;
+
+        System.out.println("Машины, выпущенные после 2015 года:");
+
+        for (int i = 0; i < years.length; i++) {
+            years[i] = 2000 + random.nextInt(26); // 2000-2025
+            int age = currentYear - years[i];
+            sumAge += age;
+
+            if (years[i] > 2015) {
+                System.out.print(years[i] + " ");
+            }
+        }
+
+        double averageAge = (double) sumAge / years.length;
+
+        System.out.println();
+        System.out.println("Средний возраст авто: " + averageAge);
+    }
+}
