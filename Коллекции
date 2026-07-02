@@ -1,0 +1,37 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> models = new ArrayList<>();
+
+        models.add("Toyota Camry");
+        models.add("BMW X5");
+        models.add("Tesla Model S");
+        models.add("Lada Vesta");
+        models.add("BMW X5");
+        models.add("Tesla Model 3");
+        models.add("Toyota Camry");
+        models.add("Audi A6");
+
+        for (int i = 0; i < models.size(); i++) {
+            if (models.get(i).contains("Tesla")) {
+                models.set(i, "ELECTRO_CAR");
+            }
+        }
+
+        Set<String> uniqueModels = new HashSet<>(models);
+
+        List<String> sortedModels = new ArrayList<>(uniqueModels);
+        sortedModels.sort(Collections.reverseOrder());
+
+        System.out.println("Модели без дубликатов, в обратном алфавитном порядке:");
+        for (String model : sortedModels) {
+            System.out.println(model);
+        }
+
+        Set<String> resultSet = new HashSet<>(sortedModels);
+
+        System.out.println("Set с моделями:");
+        System.out.println(resultSet);
+    }
+}
