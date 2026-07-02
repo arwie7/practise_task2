@@ -1,0 +1,104 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Car> cars = new ArrayList<>();
+
+        cars.add(new Car("VIN101", "Camry", "Toyota", 2020, 30000, 2500000));
+        cars.add(new Car("VIN102", "X5", "BMW", 2022, 20000, 6500000));
+        cars.add(new Car("VIN103", "Model 3", "Tesla", 2023, 10000, 4200000));
+        cars.add(new Car("VIN104", "A6", "Audi", 2019, 60000, 3100000));
+        cars.add(new Car("VIN105", "Solaris", "Hyundai", 2018, 45000, 1400000));
+        cars.add(new Car("VIN106", "Rio", "Kia", 2021, 48000, 1600000));
+
+        List<Car> filteredCars = cars.stream()
+                .filter(car -> car.getMileage() < 50000)
+                .sorted(Comparator.comparingDouble(Car::getPrice).reversed())
+                .collect(Collectors.toList());
+
+        System.out.println("Машины с пробегом меньше 50000 км:");
+        filteredCars.forEach(System.out::println);
+
+        System.out.println();
+        System.out.println("Топ-3 самые дорогие машины:");
+        cars.stream()
+                .sorted(Comparator.comparingDouble(Car::getPrice).reversed())
+                .limit(3)
+                .forEach(System.out::println);
+
+        double averageMileage = cars.stream()
+                .mapToInt(Car::getMileage)
+                .average()
+                .orElse(0);
+
+        System.out.println();
+        System.out.println("Средний пробег всех машин: " + averageMileage);
+
+        Map<String, List<Car>> carsByManufacturer = cars.stream()
+                .collect(Collectors.groupingBy(Car::getManufacturer));
+
+        System.out.println();
+        System.out.println("Группировка по производителю:");
+        for (Map.Entry<String, List<Car>> entry : carsByManufacturer.entrySet()) {
+            System.out.println(entry.getKey() + ":");
+            for (Car car : entry.getValue()) {
+                System.out.println("  " + car);
+            }
+        }
+    }
+}
+
+class Car {
+    private String vin;
+    private String model;
+    private String manufacturer;
+    private int year;
+    private int mileage;
+    private double price;
+
+    public Car(String vin, String model, String manufacturer, int year, int mileage, double price) {
+        this.vin = vin;
+        this.model = model;
+        this.manufacturer = manufacturer;
+        this.year = year;
+        this.mileage = mileage;
+        this.price = price;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getMileage() {
+        return mileage;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "vin='" + vin + '\'' +
+                ", model='" + model + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", year=" + year +
+                ", mileage=" + mileage +
+                ", price=" + price +
+                '}';
+    }
+}
